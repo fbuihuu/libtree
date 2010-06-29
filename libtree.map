@@ -1,0 +1,14 @@
+VERS_0.0 {
+	 global:
+		*tree_init;
+		*tree_insert;
+		*tree_remove;
+		*tree_replace;
+		*tree_lookup;
+		*tree_first;
+		*tree_last;
+		*tree_next;
+		*tree_prev;
+	 local:
+		*;
+};
