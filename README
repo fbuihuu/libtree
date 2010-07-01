@@ -1,0 +1,165 @@
+* Design
+
+This is yet another implementation of some famous (balanced) binary
+search trees. As of writing this, BST, AVL, Red-Black and Splay trees
+are implemented.
+
+Here's a list of the major points:
+
+    - Nodes of the tree aims to be embedded inside your own
+      structure. This removes the need to do some malloc/free during
+      insertion/removal operations and saves some space since
+      allocation infrastructure (such as object descriptors or
+      object alignment) is not required.
+
+      The idea is borrowed from the Linux kernel.
+
+    - On most architectures (at least the ones I'm using), pointers
+      have some unused bits which can be used to store node's
+      meta-data. This allows to reduce the size of the node structure,
+      and make them as small as possible on a vast majority of
+      architectures.
+
+      If the hardware you're working on doesn't allow such
+      optimisation, the library still provides an implementation which
+      is fully portable (C99), at the cost of an increasing node
+      structure size.
+
+      For now, the optimised (but non portable) version is used if
+      'uintptr_t' is defined on your platform.
+
+    - Traversals in both direction are efficient for all type of
+      trees. When needed, some implementations use *threaded* trees
+      making the traversal algorithm much simpler.
+
+    - The trees don't store duplicate keys. It's fairly easy to
+      implement duplicate from the user point of view (by having a
+      list at the node for instance) and this allows to have a simple
+      but efficient API (see below).
+
+* API
+
+You should never actually need to play with the internal members of
+either tree or node structures.
+
+Nodes are embedded inside your own structure, for example:
+
+#+BEGIN_SRC c
+  struct my_struct {
+          int key;
+          struct avltree_node node;
+  };
+#+END_SRC
+
+A tree needs to be initialized before being used. For example, in
+order to initialize an AVL tree:
+
+#+BEGIN_SRC c
+  struct avltree tree;
+  /* ... */
+  avltree_init(&tree, cmp_fn);
+#+END_SRC
+
+The user must provide a comparison function. This function will be
+called by the library with two arguments that point to the node
+structures embedded in the user structures being compared.
+
+For instance, the user must provide a function whose prototype is:
+
+#+BEGIN_SRC c
+  int my_cmp(const struct avltree_node *, const struct avltree_node *);
+#+END_SRC
+
+To be usefull, the user must be able to retrieve the pointers on his
+two structures which embed the 2 nodes pointed by the 2
+parameters. For that, the library provides a couple of helpers.
+
+#+BEGIN_SRC c
+  bstree_container_of(node, type, member)
+  rbtree_container_of(node, type, member)
+  avltree_container_of(node, type, member)
+  splaytree_container_of(node, type, member)
+#+END_SRC
+
+Below gives a definition of the comparison function:
+
+#+BEGIN_SRC c
+  int my_cmp(const struct avltree_node *a, const struct avltree_node *b)
+  {
+          struct my_struct *p = avltree_container_of(a, my_struct, node);
+          struct my_struct *q = avltree_container_of(b, my_struct, node);
+  
+          return p->key - q->key;
+  }
+#+END_SRC
+
+A set of functions is provided to manipulate trees. All of them take
+only pointers to tree and node structures. They have no idea about the
+user's structures which contain them.
+
+** Lookup
+
+If you need to search for the node having a specific key then you need
+to fill up a dummy structure with the key initialized to the value so
+your compare function will successfully compare the passed dummy
+structure with the ones inside the tree.
+
+** Insertion
+
+Trees don't store duplicate keys, since rotations don't preserve the
+binary search tree property in this case. If the user needs to do so,
+then he can keep a separate list of all records having the same key.
+
+This is the reason why the insertion functions do insert a key only if
+the key hasn't been already inserted. Otherwise it's equivalent to a
+lookup operation and the insertion operation just returns the node
+with the same key already inserted, and no insertion happened. At this
+point the user can use a list and append the new node to the list
+given by the returned node.
+
+** Removal
+
+For speed reasons, the remove operation assumes that the node was
+already inserted into the tree.
+
+Indeed tree implementations using parent pointers don't need to do any
+lookups to retrieve the node's parent needed during the remove
+operation.
+
+Therefore you must use the remove operation with an already inserted
+node.
+
+** Replace
+
+Since trees don't store duplicate keys, the library provides an
+operation to replace a node with another one whose key is equal to the
+replaced node.
+
+This operation is faster than remove/insert operations for balanced
+trees since it doesn't need to rebalance the tree.
+
+** Traversal
+
+The API allows you to walk through the tree in sorted order.
+
+For that, you can retrieve the next or the previous of any inserted
+nodes. You can also get the first (leftmost) and the last (rightmost)
+node of a tree.
+
+* Installation
+
+The current Makefile has been tested only on Linux system.
+
+To compile and install the library, just do:
+
+#+BEGIN_SRC sh
+  $ make
+  $ make install
+#+END_SRC
+
+By default the library will be installed in '/usr/local/lib' directory.
+
+As usual you change this path by passing 'prefix=' option.
+
+You can also change the installation root directory by passing
+'DESTDIR=' option.
