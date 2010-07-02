@@ -27,19 +27,29 @@
 /*
  * The definition has been stolen from the Linux kernel.
  */
-#define bstree_container_of(node, type, member) ({			\
+#ifdef __GNUC__
+#  define bstree_container_of(node, type, member) ({			\
 	const struct bstree_node *__mptr = (node);			\
 	(type *)( (char *)__mptr - offsetof(type,member) );})
-#define rbtree_container_of(node, type, member) ({			\
+#  define rbtree_container_of(node, type, member) ({			\
 	const struct rbtree_node *__mptr = (node);			\
 	(type *)( (char *)__mptr - offsetof(type,member) );})
-#define avltree_container_of(node, type, member) ({			\
+#  define avltree_container_of(node, type, member) ({			\
 	const struct avltree_node *__mptr = (node);			\
 	(type *)( (char *)__mptr - offsetof(type,member) );})
-#define splaytree_container_of(node, type, member) ({			\
+#  define splaytree_container_of(node, type, member) ({			\
 	const struct splaytree_node *__mptr = (node);			\
 	(type *)( (char *)__mptr - offsetof(type,member) );})
-
+#else
+#  define bstree_container_of(node, type, member)			\
+	((type *)((char *)(node) - offsetof(type, member)))
+#  define rbtree_container_of(node, type, member)			\
+	((type *)((char *)(node) - offsetof(type, member)))
+#  define avltree_container_of(node, type, member)			\
+	((type *)((char *)(node) - offsetof(type, member)))
+#  define splaytree_container_of(node, type, member)			\
+	((type *)((char *)(node) - offsetof(type, member)))
+#endif	/* __GNUC__ */
 
 /*
  * Threaded binary search tree
