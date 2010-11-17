@@ -146,12 +146,13 @@ struct rbtree_node *rbtree_prev(const struct rbtree_node *node)
 }
 
 /*
- * Main ops: lookup, insert, remove.
+ * 'pparent' and 'is_left' are only used for insertions. Normally GCC
+ * will notice this and get rid of them for lookups.
  */
-static struct rbtree_node *do_lookup(const struct rbtree_node *key,
-				     const struct rbtree *tree,
-				     struct rbtree_node **pparent,
-				     int *is_left)
+static inline struct rbtree_node *do_lookup(const struct rbtree_node *key,
+					    const struct rbtree *tree,
+					    struct rbtree_node **pparent,
+					    int *is_left)
 {
 	struct rbtree_node *node = tree->root;
 

@@ -219,13 +219,15 @@ static void rotate_right(struct avltree_node *node, struct avltree *tree)
 }
 
 /*
- * Main ops: lookup, insert, remove.
+ * 'pparent', 'unbalanced' and 'is_left' are only used for
+ * insertions. Normally GCC will notice this and get rid of them for
+ * lookups.
  */
-static struct avltree_node *do_lookup(const struct avltree_node *key,
-				      const struct avltree *tree,
-				      struct avltree_node **pparent,
-				      struct avltree_node **unbalanced,
-				      int *is_left)
+static inline struct avltree_node *do_lookup(const struct avltree_node *key,
+					     const struct avltree *tree,
+					     struct avltree_node **pparent,
+					     struct avltree_node **unbalanced,
+					     int *is_left)
 {
 	struct avltree_node *node = tree->root;
 	int res = 0;
