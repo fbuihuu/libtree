@@ -57,7 +57,7 @@ order to initialize an AVL tree:
 #+BEGIN_SRC c
   struct avltree tree;
   /* ... */
-  avltree_init(&tree, cmp_fn);
+  avltree_init(&tree, cmp_fn, 0);
 #+END_SRC
 
 The user must provide a comparison function. This function will be

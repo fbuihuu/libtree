@@ -473,10 +473,13 @@ void rbtree_replace(struct rbtree_node *old, struct rbtree_node *new,
 	*new = *old;
 }
 
-void rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t fn)
+int rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t fn, unsigned long flags)
 {
+	if (flags)
+		return -1;
 	tree->root = NULL;
 	tree->cmp_fn = fn;
 	tree->first = NULL;
 	tree->last = NULL;
+	return 0;
 }

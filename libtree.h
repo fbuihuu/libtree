@@ -87,7 +87,7 @@ struct bstree_node *bstree_lookup(const struct bstree_node *key, const struct bs
 struct bstree_node *bstree_insert(struct bstree_node *node, struct bstree *tree);
 void bstree_remove(struct bstree_node *node, struct bstree *tree);
 void bstree_replace(struct bstree_node *old, struct bstree_node *new, struct bstree *tree);
-void bstree_init(struct bstree *tree, bstree_cmp_fn_t cmp);
+int bstree_init(struct bstree *tree, bstree_cmp_fn_t cmp, unsigned long flags);
 
 /*
  * Red-black tree
@@ -131,7 +131,7 @@ struct rbtree_node *rbtree_lookup(const struct rbtree_node *key, const struct rb
 struct rbtree_node *rbtree_insert(struct rbtree_node *node, struct rbtree *tree);
 void rbtree_remove(struct rbtree_node *node, struct rbtree *tree);
 void rbtree_replace(struct rbtree_node *old, struct rbtree_node *new, struct rbtree *tree);
-void rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t cmp);
+int rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t cmp, unsigned long flags);
 
 /*
  * AVL tree
@@ -171,7 +171,7 @@ struct avltree_node *avltree_lookup(const struct avltree_node *key, const struct
 struct avltree_node *avltree_insert(struct avltree_node *node, struct avltree *tree);
 void avltree_remove(struct avltree_node *node, struct avltree *tree);
 void avltree_replace(struct avltree_node *old, struct avltree_node *new, struct avltree *tree);
-void avltree_init(struct avltree *tree, avltree_cmp_fn_t cmp);
+int avltree_init(struct avltree *tree, avltree_cmp_fn_t cmp, unsigned long flags);
 
 /*
  * Splay tree
@@ -209,6 +209,6 @@ struct splaytree_node *splaytree_lookup(const struct splaytree_node *key, struct
 struct splaytree_node *splaytree_insert( struct splaytree_node *node, struct splaytree *tree);
 void splaytree_remove(struct splaytree_node *node, struct splaytree *tree);
 void splaytree_replace(struct splaytree_node *old, struct splaytree_node *new, struct splaytree *tree);
-void splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp);
+int splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp, unsigned long flags);
 
 #endif /* _LIBTREE_H */

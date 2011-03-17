@@ -358,10 +358,13 @@ void splaytree_replace(struct splaytree_node *old, struct splaytree_node *new,
 	*new = *old;
 }
 
-void splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp)
+int splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp, unsigned long flags)
 {
+	if (flags)
+		return -1;
 	tree->root = NULL;
 	tree->first = NULL;
 	tree->last = NULL;
 	tree->cmp_fn = cmp;
+	return 0;
 }

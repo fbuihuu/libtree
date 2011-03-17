@@ -341,8 +341,11 @@ void bstree_replace(struct bstree_node *old, struct bstree_node *new,
 	*new = *old;
 }
 
-void bstree_init(struct bstree *tree, bstree_cmp_fn_t cmp)
+int bstree_init(struct bstree *tree, bstree_cmp_fn_t cmp, unsigned long flags)
 {
+	if (flags)
+		return -1;
 	tree->root = NULL;
 	tree->cmp_fn = cmp;
+	return 0;
 }
