@@ -76,6 +76,7 @@ struct bstree {
 	struct bstree_node *root;
 	bstree_cmp_fn_t cmp_fn;
 	struct bstree_node *first, *last;
+	uint64_t reserved[4];
 };
 
 struct bstree_node *bstree_first(const struct bstree *tree);
@@ -120,6 +121,7 @@ struct rbtree {
 	struct rbtree_node *root;
 	rbtree_cmp_fn_t cmp_fn;
 	struct rbtree_node *first, *last;
+	uint64_t reserved[4];
 };
 
 struct rbtree_node *rbtree_first(const struct rbtree *tree);
@@ -160,6 +162,7 @@ struct avltree {
 	avltree_cmp_fn_t cmp_fn;
 	int height;
 	struct avltree_node *first, *last;
+	uint64_t reserved[4];
 };
 
 struct avltree_node *avltree_first(const struct avltree *tree);
@@ -198,6 +201,7 @@ struct splaytree {
 	struct splaytree_node *root;
 	struct splaytree_node *first, *last;
 	splaytree_cmp_fn_t cmp_fn;
+	uint64_t reserved[4];
 };
 
 struct splaytree_node *splaytree_first(const struct splaytree *tree);
