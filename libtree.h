@@ -138,12 +138,12 @@ int rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t cmp, unsigned long flags);
 /*
  * AVL tree
  */
-#ifdef UINTPTR_MAX
+#if defined UINTPTR_MAX && UINTPTR_MAX == UINT64_MAX
 
 struct avltree_node {
 	struct avltree_node *left, *right;
 	uintptr_t parent;		/* balance factor [0:4] */
-} __attribute__((aligned(4)));
+} __attribute__((aligned(8)));
 
 #else
 

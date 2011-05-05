@@ -23,7 +23,7 @@
 #include "libtree.h"
 
 
-#ifndef UINTPTR_MAX
+#if !defined UINTPTR_MAX || UINTPTR_MAX != UINT64_MAX
 
 static inline int is_root(struct avltree_node *node)
 {
