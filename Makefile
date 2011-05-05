@@ -70,7 +70,6 @@ clean:
 	rm -f $(libtree_objs) $(LIB) $(SHLIB)
 	rm -f $(soname) libtree.so
 	rm -f libtree.pc
-	$(MAKE) -C examples $@
 
 distclean: clean
 	rm -f  cscope.out TAGS
