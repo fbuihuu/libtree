@@ -549,7 +549,7 @@ void avltree_replace(struct avltree_node *old, struct avltree_node *new,
 	struct avltree_node *parent = get_parent(old);
 
 	if (parent)
-		set_child(parent, new, parent->left == old);
+		set_child(new, parent, parent->left == old);
 	else
 		tree->root = new;
 
