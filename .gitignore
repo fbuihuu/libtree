@@ -1,6 +1,6 @@
+*.o
 libtree.a
 libtree.so*
 libtree.pc
 TAGS
 cscope.out
-
