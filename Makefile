@@ -33,7 +33,7 @@ libtree_srcs	= bst.c rb.c avl.c splay.c
 libtree_objs	= $(patsubst %.c,%.o,$(libtree_srcs))
 
 
-all: $(LIB) $(SHLIB)
+all: $(LIB) $(SHLIB) libtree.pc
 
 %.o: %.c
 	$(CC) $(ALL_CFLAGS) -o $@ -c $<
@@ -47,7 +47,7 @@ $(SHLIB): $(libtree_objs) libtree.map
 	$(LN) -sf $@ libtree.so
 	$(LN) -sf $@ $(soname)
 
-%.pc: %.pc.in force
+%.pc: %.pc.in
 	sed -e 's|@prefix@|$(prefix)|' -e 's|@libdir@|$(libdir)|' \
 		-e 's|@major@|$(MAJOR_VERSION)|' \
 		-e 's|@minor@|$(MINOR_VERSION)|' $< >$@
@@ -55,7 +55,6 @@ $(SHLIB): $(libtree_objs) libtree.map
 .depend: $(libtree_srcs)
 	$(CC) -MM $(ALL_CFLAGS) $^ >$@
 
-force: ;
 
 .PHONY: TAGS cscope
 .PHONY: clean distclean
@@ -75,7 +74,7 @@ TAGS:
 cscope:
 	@cscope -b
 
-install: libtree.pc $(LIB) $(SHLIB)
+install: all
 	$(INSTALL) -D -m 644 libtree.h $(DESTDIR)/$(incdir)/libtree.h
 	$(INSTALL) -D -m 644 libtree.a $(DESTDIR)/$(libdir)/libtree.a
 	$(INSTALL) -D -m 755 $(SHLIB) $(DESTDIR)/$(libdir)/$(SHLIB)
