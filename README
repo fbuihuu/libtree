@@ -104,6 +104,9 @@ to fill up a dummy structure with the key initialized to the value so
 your compare function will successfully compare the passed dummy
 structure with the ones inside the tree.
 
+The lookup operation returns the node with the same key if inserted
+previously otherwise NULL.
+
 ** Insertion
 
 Trees don't store duplicate keys, since rotations don't preserve the
