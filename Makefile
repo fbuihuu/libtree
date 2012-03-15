@@ -79,11 +79,13 @@ install: libtree.pc $(LIB) $(SHLIB)
 	$(INSTALL) -D -m 644 libtree.h $(DESTDIR)/$(incdir)/libtree.h
 	$(INSTALL) -D -m 644 libtree.a $(DESTDIR)/$(libdir)/libtree.a
 	$(INSTALL) -D -m 755 $(SHLIB) $(DESTDIR)/$(libdir)/$(SHLIB)
+	$(LN) -s $(SHLIB) $(DESTDIR)/$(libdir)/libtree.so
 	$(INSTALL) -D libtree.pc $(DESTDIR)/$(libdir)/pkgconfig/libtree.pc
 
 uninstall:
 	rm -f $(DESTDIR)/$(libdir)/$(LIB)
 	rm -f $(DESTDIR)/$(libdir)/$(SHLIB)
+	rm -f $(DESTDIR)/$(libdir)/libtree.so
 	rm -f $(DESTDIR)/$(libdir)/pkgconfig/libtree.pc
 	rm -f $(DESTDIR)/$(incdir)/libtree.h
 
