@@ -56,6 +56,9 @@ $(SHLIB): $(libtree_objs) libtree.map
 		-e 's|@major@|$(MAJOR_VERSION)|' \
 		-e 's|@minor@|$(MINOR_VERSION)|' $< >$@
 
+.depend: $(libtree_srcs)
+	$(CC) -MM $(ALL_CFLAGS) $^ >$@
+
 force: ;
 
 .PHONY: examples
@@ -69,7 +72,7 @@ examples: all
 clean:
 	rm -f $(libtree_objs) $(LIB) $(SHLIB)
 	rm -f $(soname) libtree.so
-	rm -f libtree.pc
+	rm -f libtree.pc .depend
 
 distclean: clean
 	rm -f  cscope.out TAGS
@@ -92,8 +95,4 @@ uninstall:
 	rm -f $(DESTDIR)/$(libdir)/pkgconfig/libtree.pc
 	rm -f $(DESTDIR)/$(incdir)/libtree.h
 
-# dependencies
-bst.o: bst.c libtree.h
-rb.o: rb.c libtree.h
-avl.o: avl.c libtree.h
-splay.o: splay.c libtree.h
+-include .depend
