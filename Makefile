@@ -29,10 +29,6 @@ CFLAGS		= -g -Os
 BASE_CFLAGS	= -std=c99 -Wall -Werror -Wno-unused-function -fpic
 ALL_CFLAGS	= $(BASE_CFLAGS) $(CFLAGS) $(EXTRA_CFLAGS)
 
-export TOPDIR
-export CC AR RANLIB
-export ALL_CFLAGS
-
 libtree_srcs	= bst.c rb.c avl.c splay.c
 libtree_objs	= $(patsubst %.c,%.o,$(libtree_srcs))
 
@@ -61,13 +57,9 @@ $(SHLIB): $(libtree_objs) libtree.map
 
 force: ;
 
-.PHONY: examples
 .PHONY: TAGS cscope
 .PHONY: clean distclean
 .PHONY: install uninstall
-
-examples: all
-	@$(MAKE) -C examples
 
 clean:
 	rm -f $(libtree_objs) $(LIB) $(SHLIB)
