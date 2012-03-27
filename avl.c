@@ -25,6 +25,10 @@
 
 #if !defined UINTPTR_MAX || UINTPTR_MAX != UINT64_MAX
 
+#ifdef WIN32
+#define inline _inline
+#endif
+
 static inline int is_root(struct avltree_node *node)
 {
 	return node->parent == NULL;

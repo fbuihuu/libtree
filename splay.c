@@ -27,6 +27,10 @@
 
 #define NODE_INIT	{ 0, }
 
+#ifdef WIN32
+#define inline _inline
+#endif
+
 static inline void INIT_NODE(struct splaytree_node *node)
 {
 	node->left = 0;
@@ -343,19 +347,19 @@ void splaytree_remove(struct splaytree_node *node, struct splaytree *tree)
 		tree->last = prev;
 }
 
-void splaytree_replace(struct splaytree_node *old, struct splaytree_node *new,
+void splaytree_replace(struct splaytree_node *old, struct splaytree_node *newnode,
 		       struct splaytree *tree)
 {
 	do_splay(old, tree);
 	assert(tree->root == old);
 
-	tree->root = new;
+	tree->root = newnode;
 	if (tree->first == old)
-		tree->first = new;
+		tree->first = newnode;
 	if (tree->last == old)
-		tree->last = new;
+		tree->last = newnode;
 
-	*new = *old;
+	*newnode = *old;
 }
 
 int splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp, unsigned long flags)

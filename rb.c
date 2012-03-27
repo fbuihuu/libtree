@@ -35,9 +35,13 @@
  */
 #ifdef UINTPTR_MAX
 
+#ifdef WIN32
+#define inline _inline
+#endif
+
 static inline enum rb_color get_color(const struct rbtree_node *node)
 {
-	return node->parent & 1;
+	return (enum rb_color) (node->parent & 1);
 }
 
 static inline void set_color(enum rb_color color, struct rbtree_node *node)
@@ -450,27 +454,27 @@ void rbtree_remove(struct rbtree_node *node, struct rbtree *tree)
 		set_color(RB_BLACK, node);
 }
 
-void rbtree_replace(struct rbtree_node *old, struct rbtree_node *new,
+void rbtree_replace(struct rbtree_node *old, struct rbtree_node *newnode,
 		    struct rbtree *tree)
 {
 	struct rbtree_node *parent = get_parent(old);
 
 	if (parent)
-		set_child(new, parent, parent->left == old);
+		set_child(newnode, parent, parent->left == old);
 	else
-		tree->root = new;
+		tree->root = newnode;
 
 	if (old->left)
-		set_parent(new, old->left);
+		set_parent(newnode, old->left);
 	if (old->right)
-		set_parent(new, old->right);
+		set_parent(newnode, old->right);
 
 	if (tree->first == old)
-		tree->first = new;
+		tree->first = newnode;
 	if (tree->last == old)
-		tree->last = new;
+		tree->last = newnode;
 
-	*new = *old;
+	*newnode = *old;
 }
 
 int rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t fn, unsigned long flags)
