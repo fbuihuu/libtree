@@ -35,6 +35,10 @@
  */
 #ifdef UINTPTR_MAX
 
+#ifdef WIN32
+#define inline __inline
+#endif
+
 static inline enum rb_color get_color(const struct rbtree_node *node)
 {
 	return node->parent & 1;

@@ -27,6 +27,10 @@
 
 #define NODE_INIT	{ 0, }
 
+#ifdef WIN32
+#define inline __inline
+#endif
+
 static inline void INIT_NODE(struct splaytree_node *node)
 {
 	node->left = 0;
