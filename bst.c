@@ -32,6 +32,10 @@
 
 #define NODE_INIT	{ 0, }
 
+#ifdef WIN32
+#define inline _inline
+#endif
+
 static inline void INIT_NODE(struct bstree_node *node)
 {
 	node->left = 0;
