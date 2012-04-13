@@ -46,12 +46,12 @@ static inline enum rb_color get_color(const struct rbtree_node *node)
 
 static inline void set_color(enum rb_color color, struct rbtree_node *node)
 {
-	node->parent = (node->parent & ~1UL) | color;
+	node->parent = (node->parent & -2) | color;
 }
 
 static inline struct rbtree_node *get_parent(const struct rbtree_node *node)
 {
-	return (struct rbtree_node *)(node->parent & ~1UL);
+	return (struct rbtree_node *)(node->parent & -2);
 }
 
 static inline void set_parent(struct rbtree_node *parent, struct rbtree_node *node)
