@@ -40,6 +40,9 @@
 #  define splaytree_container_of(node, type, member) ({			\
 	const struct splaytree_node *__mptr = (node);			\
 	(type *)( (char *)__mptr - offsetof(type,member) );})
+#  if __STRICT_ANSI__
+#    define inline __inline__
+#  endif
 #else
 #  define bstree_container_of(node, type, member)			\
 	((type *)((char *)(node) - offsetof(type, member)))
@@ -95,7 +98,7 @@ int bstree_init(struct bstree *tree, bstree_cmp_fn_t cmp, unsigned long flags);
  */
 enum rb_color {
 	RB_BLACK,
-	RB_RED,
+	RB_RED
 };
 
 #ifdef UINTPTR_MAX
