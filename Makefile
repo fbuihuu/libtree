@@ -26,7 +26,7 @@ soname		= libtree.so.$(MAJOR_VERSION)
 ARFLAGS		= cr
 LDFLAGS		= -Wl,--version-script=libtree.map
 CFLAGS		= -g -Os
-BASE_CFLAGS	= -std=c99 -Wall -Werror -Wno-unused-function -fpic
+BASE_CFLAGS	= -ansi -pedantic -Wall -Werror -Wno-unused-function -fpic
 ALL_CFLAGS	= $(BASE_CFLAGS) $(CFLAGS) $(EXTRA_CFLAGS)
 
 libtree_srcs	= bst.c rb.c avl.c splay.c
