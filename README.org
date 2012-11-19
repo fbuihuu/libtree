@@ -1,3 +1,5 @@
+#+TITLE: Libtree Description
+
 * Design
 
 This is yet another implementation of some famous (balanced) binary
@@ -44,21 +46,17 @@ either tree or node structures.
 
 Nodes are embedded inside your own structure, for example:
 
-#+BEGIN_SRC c
-  struct my_struct {
-          int key;
-          struct avltree_node node;
-  };
-#+END_SRC
+  : struct my_struct {
+  :         int key;
+  :         struct avltree_node node;
+  : };
 
 A tree needs to be initialized before being used. For example, in
 order to initialize an AVL tree:
 
-#+BEGIN_SRC c
-  struct avltree tree;
-  /* ... */
-  avltree_init(&tree, cmp_fn, 0);
-#+END_SRC
+  : struct avltree tree;
+  : /* ... */
+  : avltree_init(&tree, cmp_fn, 0);
 
 The user must provide a comparison function. This function will be
 called by the library with two arguments that point to the node
@@ -66,32 +64,26 @@ structures embedded in the user structures being compared.
 
 For instance, the user must provide a function whose prototype is:
 
-#+BEGIN_SRC c
-  int my_cmp(const struct avltree_node *, const struct avltree_node *);
-#+END_SRC
+  : int my_cmp(const struct avltree_node *, const struct avltree_node *);
 
 To be usefull, the user must be able to retrieve the pointers on his
 two structures which embed the 2 nodes pointed by the 2
 parameters. For that, the library provides a couple of helpers.
 
-#+BEGIN_SRC c
-  bstree_container_of(node, type, member)
-  rbtree_container_of(node, type, member)
-  avltree_container_of(node, type, member)
-  splaytree_container_of(node, type, member)
-#+END_SRC
+  : bstree_container_of(node, type, member)
+  : rbtree_container_of(node, type, member)
+  : avltree_container_of(node, type, member)
+  : splaytree_container_of(node, type, member)
 
 Below gives a definition of the comparison function:
 
-#+BEGIN_SRC c
-  int my_cmp(const struct avltree_node *a, const struct avltree_node *b)
-  {
-          struct my_struct *p = avltree_container_of(a, my_struct, node);
-          struct my_struct *q = avltree_container_of(b, my_struct, node);
-  
-          return p->key - q->key;
-  }
-#+END_SRC
+  : int my_cmp(const struct avltree_node *a, const struct avltree_node *b)
+  : {
+  :         struct my_struct *p = avltree_container_of(a, my_struct, node);
+  :         struct my_struct *q = avltree_container_of(b, my_struct, node);
+  :
+  :         return p->key - q->key;
+  : }
 
 A set of functions is provided to manipulate trees. All of them take
 only pointers to tree and node structures. They have no idea about the
@@ -155,10 +147,8 @@ The current Makefile has been tested only on Linux system.
 
 To compile and install the library, just do:
 
-#+BEGIN_SRC sh
-  $ make
-  $ make install
-#+END_SRC
+  : $ make
+  : $ make install
 
 By default the library will be installed in '/usr/local/lib' directory.
 
