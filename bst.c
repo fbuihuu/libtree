@@ -321,19 +321,32 @@ update_first_last:
 void bstree_replace(struct bstree_node *old, struct bstree_node *new,
 		    struct bstree *tree)
 {
-	struct bstree_node *parent;
+	struct bstree_node *parent, *next, *prev;
 	int is_left;
-
-	do_lookup(old, tree, &parent, &is_left);
-	if (parent)
-		set_child(new, parent, is_left);
-	else
-		tree->root = new;
 
 	if (tree->first == old)
 		tree->first = new;
 	if (tree->last == old)
 		tree->last = new;
+	if (tree->root == old)
+		tree->root = new;
+	else {
+		/*
+		 * Update the parent: do a full lookup to retrieve
+		 * it. There's probably a better way but it's bst...
+		 */
+		do_lookup(old, tree, &parent, &is_left);
+		if (parent)
+			set_child(new, parent, is_left);
+	}
+
+	/* update the thread links */
+	prev = bstree_prev(old);
+	if (prev && get_next(prev) == old)
+		set_next(new, prev);
+	next = bstree_next(old);
+	if (next && get_prev(next) == old)
+		set_prev(new, next);
 
 	*new = *old;
 }
