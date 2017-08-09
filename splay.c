@@ -340,19 +340,19 @@ void splaytree_remove(struct splaytree_node *node, struct splaytree *tree)
 		tree->last = prev;
 }
 
-void splaytree_replace(struct splaytree_node *old, struct splaytree_node *new,
+void splaytree_replace(struct splaytree_node *old, struct splaytree_node *new_node,
 		       struct splaytree *tree)
 {
 	do_splay(old, tree);
 	assert(tree->root == old);
 
-	tree->root = new;
+	tree->root = new_node;
 	if (tree->first == old)
-		tree->first = new;
+		tree->first = new_node;
 	if (tree->last == old)
-		tree->last = new;
+		tree->last = new_node;
 
-	*new = *old;
+	*new_node = *old;
 }
 
 int splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp, unsigned long flags)

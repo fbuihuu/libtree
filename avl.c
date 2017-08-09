@@ -540,27 +540,27 @@ void avltree_remove(struct avltree_node *node, struct avltree *tree)
 	tree->height--;
 }
 
-void avltree_replace(struct avltree_node *old, struct avltree_node *new,
+void avltree_replace(struct avltree_node *old, struct avltree_node *new_node,
 		     struct avltree *tree)
 {
 	struct avltree_node *parent = get_parent(old);
 
 	if (parent)
-		set_child(new, parent, parent->left == old);
+		set_child(new_node, parent, parent->left == old);
 	else
-		tree->root = new;
+		tree->root = new_node;
 
 	if (old->left)
-		set_parent(new, old->left);
+		set_parent(new_node, old->left);
 	if (old->right)
-		set_parent(new, old->right);
+		set_parent(new_node, old->right);
 
 	if (tree->first == old)
-		tree->first = new;
+		tree->first = new_node;
 	if (tree->last == old)
-		tree->last = new;
+		tree->last = new_node;
 
-	*new = *old;
+	*new_node = *old;
 }
 
 int avltree_init(struct avltree *tree, avltree_cmp_fn_t cmp, unsigned long flags)
