@@ -21,6 +21,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#ifdef _cplusplus
+extern "C" {
+#endif
+
 /*
  * The definition has been stolen from the Linux kernel.
  */
@@ -213,3 +217,7 @@ void splaytree_replace(struct splaytree_node *old, struct splaytree_node *node, 
 int splaytree_init(struct splaytree *tree, splaytree_cmp_fn_t cmp, unsigned long flags);
 
 #endif /* _LIBTREE_H */
+
+#ifdef _cplusplus
+}
+#endif

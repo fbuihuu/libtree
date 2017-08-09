@@ -318,18 +318,18 @@ update_first_last:
 	goto out;
 }
 
-void bstree_replace(struct bstree_node *old, struct bstree_node *new,
+void bstree_replace(struct bstree_node *old, struct bstree_node *new_node,
 		    struct bstree *tree)
 {
 	struct bstree_node *parent, *next, *prev;
 	int is_left;
 
 	if (tree->first == old)
-		tree->first = new;
+		tree->first = new_node;
 	if (tree->last == old)
-		tree->last = new;
+		tree->last = new_node;
 	if (tree->root == old)
-		tree->root = new;
+		tree->root = new_node;
 	else {
 		/*
 		 * Update the parent: do a full lookup to retrieve
@@ -337,18 +337,18 @@ void bstree_replace(struct bstree_node *old, struct bstree_node *new,
 		 */
 		do_lookup(old, tree, &parent, &is_left);
 		if (parent)
-			set_child(new, parent, is_left);
+			set_child(new_node, parent, is_left);
 	}
 
 	/* update the thread links */
 	prev = bstree_prev(old);
 	if (prev && get_next(prev) == old)
-		set_next(new, prev);
+		set_next(new_node, prev);
 	next = bstree_next(old);
 	if (next && get_prev(next) == old)
-		set_prev(new, next);
+		set_prev(new_node, next);
 
-	*new = *old;
+	*new_node = *old;
 }
 
 int bstree_init(struct bstree *tree, bstree_cmp_fn_t cmp, unsigned long flags)

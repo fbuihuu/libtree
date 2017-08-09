@@ -447,27 +447,27 @@ void rbtree_remove(struct rbtree_node *node, struct rbtree *tree)
 		set_color(RB_BLACK, node);
 }
 
-void rbtree_replace(struct rbtree_node *old, struct rbtree_node *new,
+void rbtree_replace(struct rbtree_node *old, struct rbtree_node *new_node,
 		    struct rbtree *tree)
 {
 	struct rbtree_node *parent = get_parent(old);
 
 	if (parent)
-		set_child(new, parent, parent->left == old);
+		set_child(new_node, parent, parent->left == old);
 	else
-		tree->root = new;
+		tree->root = new_node;
 
 	if (old->left)
-		set_parent(new, old->left);
+		set_parent(new_node, old->left);
 	if (old->right)
-		set_parent(new, old->right);
+		set_parent(new_node, old->right);
 
 	if (tree->first == old)
-		tree->first = new;
+		tree->first = new_node;
 	if (tree->last == old)
-		tree->last = new;
+		tree->last = new_node;
 
-	*new = *old;
+	*new_node = *old;
 }
 
 int rbtree_init(struct rbtree *tree, rbtree_cmp_fn_t fn, unsigned long flags)
