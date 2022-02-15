@@ -101,9 +101,8 @@ previously otherwise NULL.
 
 ** Insertion
 
-Trees don't store duplicate keys, since rotations don't preserve the
-binary search tree property in this case. If the user needs to do so,
-then he can keep a separate list of all records having the same key.
+Trees don't store duplicate keys. If the user needs to do so, then he
+can keep a separate list of all records having the same key.
 
 This is the reason why the insertion functions do insert a key only if
 the key hasn't been already inserted. Otherwise it's equivalent to a
